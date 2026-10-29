@@ -14,7 +14,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;900&family=Plus+Jakarta+Sans:wght@400;500;600;800&display=swap" rel="stylesheet">
 
   <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@latest" type="module"></script>
 
   <style>
     :root {
@@ -123,6 +123,7 @@
     }
 
     .theme-toggle-btn {
+      position: relative;
       background: var(--card-bg);
       color: var(--text-dark);
       border: var(--border-bold);
@@ -136,6 +137,18 @@
       box-shadow: 3px 3px 0px var(--border-color);
       transition: transform 0.2s;
     }
+    .theme-toggle-btn svg {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .theme-toggle-btn .theme-icon-fallback { font-size: 18px; line-height: 1; }
+    /* Show exactly one icon: hide the emoji fallback as soon as Lucide inserts an <svg>,
+       so they never stack on top of each other. */
+    .theme-toggle-btn:has(svg) .theme-icon-fallback { display: none; }
     .theme-toggle-btn:hover { transform: scale(1.1) rotate(15deg); background: var(--pop-cyan); color: #0f172a; }
 
     .hero {
@@ -193,6 +206,7 @@
       text-transform: uppercase;
       box-shadow: var(--shadow-pop);
       transition: all 0.2s ease;
+      cursor: pointer;
     }
 
     .btn-brutal:hover {
@@ -341,6 +355,20 @@
     .arrow-left { left: 20px; }
     .arrow-right { right: 20px; }
 
+    /* Fallback arrow glyphs: visible until Lucide inserts an <svg> before the <i>. */
+    .side-arrow .arrow-fallback,
+    .side-arrow svg {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .side-arrow .arrow-fallback { font-size: 24px; line-height: 1; }
+    .side-arrow svg + i + .arrow-fallback,
+    .side-arrow svg ~ .arrow-fallback { display: none; }
+
     .feature-row {
       display: flex;
       align-items: center;
@@ -424,10 +452,12 @@
 
   <!-- Script to apply dark mode class instantly on HTML root to prevent flash -->
   <script is:inline>
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    if (savedTheme === 'dark') {
-      document.documentElement.classList.add('dark-mode');
-    }
+    try {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark-mode');
+      }
+    } catch (e) { /* ignore storage errors on first load */ }
   </script>
 </head>
 <body>
@@ -437,7 +467,7 @@
   </div>
 
   <header>
-    <a href="#about" class="logo">TYTHAO<span>.DEV</span></a>
+    <a href="#about" class="logo">TYTHAO</a>
     
     <ul class="nav-links">
       <li><a href="#about">About Me</a></li>
@@ -447,17 +477,18 @@
 
     <div class="nav-actions">
       <button class="theme-toggle-btn" id="themeToggle" title="Toggle Theme">
+        <span class="theme-icon-fallback" aria-hidden="true">🌙</span>
         <i data-lucide="moon" id="themeIcon"></i>
       </button>
-      <a href="http://localhost:4321" target="_blank" class="btn-brutal" style="padding: 10px 20px; font-size: 0.85rem;">Launch App ↗</a>
+      <button type="button" class="btn-brutal" style="padding: 10px 20px; font-size: 0.85rem;">Launch App ↗</button>
     </div>
   </header>
 
   <section class="hero" id="about">
     <div class="hero-content">
-      <span class="hero-sub">FULL-STACK DEVELOPER &amp; SYSTEMS BUILDER</span>
-      <h1>Architecting Code with <br><span>Precision &amp; Scale</span></h1>
-      <a href="#projects" class="btn-brutal">Explore The Hub</a>
+      <span class="hero-sub">AI EXPLORER</span>
+      <h1>EXPLORING <br><span>AI</span></h1>
+      <button type="button" class="btn-brutal" id="exploreHubBtn">Explore The Hub</button>
     </div>
   </section>
 
@@ -472,9 +503,11 @@
   <!-- CAROUSEL WRAPPER WITH < > SIDE ARROWS -->
   <div class="carousel-section-container">
     <button class="side-arrow arrow-left" id="prevBtn" aria-label="Previous Project">
+      <span class="arrow-fallback" aria-hidden="true">◀</span>
       <i data-lucide="chevron-left" size="32"></i>
     </button>
     <button class="side-arrow arrow-right" id="nextBtn" aria-label="Next Project">
+      <span class="arrow-fallback" aria-hidden="true">▶</span>
       <i data-lucide="chevron-right" size="32"></i>
     </button>
 
@@ -499,74 +532,70 @@
           </div>
         </a>
 
-        <!-- Project 2: Coming Soon -->
-        <div class="showcase-card" style="cursor: default;">
+        <!-- Project 2: TBD -->
+        <div class="showcase-card">
           <div class="card-img-wrap">
-            <span class="card-tag" style="background: var(--pop-cyan);">IN DEVELOPMENT</span>
+            <span class="card-tag">TBD</span>
             <img src="https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&w=800&q=80" alt="Placeholder Mountain">
           </div>
           <div class="card-body">
             <div>
               <span style="font-size: 0.75rem; font-family: var(--font-body); font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Project 2</span>
-              <h3 class="card-title">Autonomous Code Analyzer</h3>
+              <h3 class="card-title">TBD</h3>
             </div>
             <div class="card-meta">
-              <span style="color: var(--text-muted); font-style: italic;">Coming Soon...</span>
-              <span>🔒 Locked</span>
+              <span style="color: var(--text-muted); font-style: italic;">Coming soon</span>
             </div>
           </div>
         </div>
 
-        <!-- Project 3: Coming Soon -->
-        <div class="showcase-card" style="cursor: default;">
+        <!-- Project 3: TBD -->
+        <div class="showcase-card">
           <div class="card-img-wrap">
-            <span class="card-tag" style="background: var(--pop-yellow);">PLANNED</span>
+            <span class="card-tag">TBD</span>
             <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80" alt="Placeholder Nature">
           </div>
           <div class="card-body">
             <div>
               <span style="font-size: 0.75rem; font-family: var(--font-body); font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Project 3</span>
-              <h3 class="card-title">Local LLM Prompt Playground</h3>
+              <h3 class="card-title">TBD</h3>
             </div>
             <div class="card-meta">
-              <span style="color: var(--text-muted); font-style: italic;">Under Consideration</span>
-              <span>⏳ Planned</span>
+              <span style="color: var(--text-muted); font-style: italic;">Coming soon</span>
             </div>
           </div>
         </div>
 
-        <!-- Project 4: Coming Soon -->
-        <div class="showcase-card" style="cursor: default;">
+        <!-- Project 4: TBD -->
+        <div class="showcase-card">
           <div class="card-img-wrap">
-            <span class="card-tag" style="background: var(--pop-purple); color: #fff;">CONCEPT</span>
+            <span class="card-tag">TBD</span>
             <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80" alt="Placeholder Scenery">
           </div>
           <div class="card-body">
             <div>
               <span style="font-size: 0.75rem; font-family: var(--font-body); font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Project 4</span>
-              <h3 class="card-title">Neural Git Branch Visualizer</h3>
+              <h3 class="card-title">TBD</h3>
             </div>
             <div class="card-meta">
-              <span style="color: var(--text-muted); font-style: italic;">In Design Phase</span>
-              <span>✏️ Draft</span>
+              <span style="color: var(--text-muted); font-style: italic;">Coming soon</span>
             </div>
           </div>
         </div>
 
-        <!-- Project 5: Coming Soon -->
-        <div class="showcase-card" style="cursor: default;">
+        <!-- Project 5: TBD -->
+        <div class="showcase-card">
           <div class="card-img-wrap">
-            <span class="card-tag" style="background: var(--pop-red); color: #fff;">FUTURE</span>
+            <span class="card-tag">TBD</span>
             <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=80" alt="Placeholder Night Sky">
           </div>
           <div class="card-body">
             <div>
               <span style="font-size: 0.75rem; font-family: var(--font-body); font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Project 5</span>
-              <h3 class="card-title">Zero-Latency Edge Dashboard</h3>
+              <h3 class="card-title">TBD</h3>
             </div>
             <div class="card-meta">
-              <span style="color: var(--text-muted); font-style: italic;">Blueprint Stage</span>
-              <span>📋 Queued</span>
+              <span style="color: var(--text-muted); font-style: italic;">Coming soon</span>
             </div>
           </div>
         </div>
@@ -577,10 +606,9 @@
 
   <section class="feature-row" id="capabilities">
     <div class="feature-text">
-      <span style="font-family: var(--font-loud); font-size: 0.8rem; background: var(--pop-yellow); padding: 4px 12px; border: 2px solid var(--border-color); border-radius: 20px; font-weight: 800;">SKILLS</span>
-      <h2 style="margin-top: 15px;">Local AI <br><span style="color: var(--pop-red);">Inference</span></h2>
-      <p>Running lightweight local models directly on edge environments with zero external API dependencies, prioritizing data privacy and ultra-fast responses.</p>
-      <a href="http://localhost:4321" target="_blank" class="btn-brutal">Explore Environment</a>
+      <h2 style="margin-top: 15px;">HYBRID AI <br><span style="color: var(--pop-red);">PROJECTS</span></h2>
+      <p>A hybrid approach: local models build a majority of the project while frontier models assist when necessary.</p>
+      <button type="button" class="btn-brutal">Explore Environment</button>
     </div>
     <div class="feature-media">
       <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1000&q=80" alt="Nature Scenery">
@@ -589,9 +617,9 @@
 
   <section class="feature-row reverse">
     <div class="feature-text">
-      <span style="font-family: var(--font-loud); font-size: 0.8rem; background: var(--pop-cyan); padding: 4px 12px; border: 2px solid var(--border-color); border-radius: 20px; font-weight: 800;">SKILLS</span>
-      <h2 style="margin-top: 15px;">System Architecture <br><span style="color: var(--pop-yellow);">&amp; Workflow Design</span></h2>
-      <p>Planning, mapping, and structuring application logic from the ground up—guiding execution paths strategically from initial concept to a complete end goal.</p>
+      <h2 style="margin-top: 15px;">System Architecture <br><span style="color: var(--pop-red);">Workflow Design</span></h2>
+      <p>Operating as a system architech, I simply plan, build, test, and then ship. If the project is more complex, I expand and change the workflow as needed.</p>
+      <button type="button" class="btn-brutal">Explore Pipeline</button>
     </div>
     <div class="feature-media">
       <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1000&q=80" alt="Mountain Landscape">
@@ -600,13 +628,27 @@
 
   <!-- CONTACT / FOOTER SECTION -->
   <footer id="contact">
-    <div class="footer-brand">TYTHAO.DEV</div>
-    <p style="font-size: 0.85rem; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 20px; font-weight: 600;">SYSTEMS BUILDER &nbsp;&bull;&nbsp; ASTRO 5.0 &nbsp;&bull;&nbsp; LOCALHOST:4321</p>
-    <p style="font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase;">&copy; 2026 TYTHAO.DEV &bull; ALL RIGHTS RESERVED.</p>
+    <div class="footer-brand">TYTHAO</div>
+    <p style="font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase;">&copy; 2026 TYTHAO &bull; ALL RIGHTS RESERVED.</p>
   </footer>
 
   <script>
-    lucide.createIcons();
+    // Lucide (CDN) is optional: if it fails to load, the page must still work
+    // — fallback glyph icons handle arrows and the theme toggle.
+    const renderIcons = () => { try { window.lucide?.createIcons(); } catch (e) {} };
+    renderIcons();
+    // The Lucide CDN module may finish loading after this inline script runs, so re-render
+    // once on load to make sure the icons (and the fallback-hiding rule) take effect.
+    window.addEventListener('load', renderIcons);
+
+    // Smooth-scroll to #projects
+    const exploreHubBtn = document.getElementById('exploreHubBtn');
+    if (exploreHubBtn) {
+      exploreHubBtn.addEventListener('click', () => {
+        const target = document.getElementById('projects');
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      });
+    }
 
     // Functional Carousel Slider Logic
     const container = document.getElementById('carouselContainer');
@@ -625,31 +667,30 @@
       });
     }
 
-    // Theme Toggle Logic Fixed
+    // Theme Toggle — works with or without Lucide
     const themeToggle = document.getElementById('themeToggle');
     const themeIcon = document.getElementById('themeIcon');
-    
-    // Set initial icon state based on current class
-    if (document.documentElement.classList.contains('dark-mode')) {
-      themeIcon.setAttribute('data-lucide', 'sun');
-    } else {
-      themeIcon.setAttribute('data-lucide', 'moon');
-    }
-    lucide.createIcons();
+    const themeFallback = document.querySelector('.theme-toggle-btn .theme-icon-fallback');
 
-    themeToggle.addEventListener('click', () => {
-      document.documentElement.classList.toggle('dark-mode');
-      const isDark = document.documentElement.classList.contains('dark-mode');
-      
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-      
-      if (isDark) {
-        themeIcon.setAttribute('data-lucide', 'sun');
-      } else {
-        themeIcon.setAttribute('data-lucide', 'moon');
-      }
-      lucide.createIcons();
-    });
+    const setThemeGlyph = (isDark) => {
+      // Update the Lucide icon (if present)
+      if (themeIcon) themeIcon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+      // Update the text fallback so it's always correct
+      if (themeFallback) themeFallback.textContent = isDark ? '☀' : '🌙';
+      renderIcons();
+    };
+
+    // Initialize glyph to match current state
+    setThemeGlyph(document.documentElement.classList.contains('dark-mode'));
+
+    if (themeToggle) {
+      themeToggle.addEventListener('click', () => {
+        document.documentElement.classList.toggle('dark-mode');
+        const isDark = document.documentElement.classList.contains('dark-mode');
+        try { localStorage.setItem('theme', isDark ? 'dark' : 'light'); } catch (e) {}
+        setThemeGlyph(isDark);
+      });
+    }
   </script>
 </body>
 </html>

@@ -236,3 +236,117 @@ body {
     width: 100%;
   }
 }
+
+/* =========================================================================
+   INFO panel — in-flow, ABOVE the todo app
+   Sits above the todo; when opened it expands and pushes the todo list down.
+   Collapsed by default (todo-first). No overlap, any screen size.
+   ========================================================================= */
+
+/* INFO toggle: highlight when the panel is open */
+#todoInfoToggle[aria-expanded="true"] {
+  background: #111;
+  color: #FFDE00;
+}
+
+/* Workspace: holds the panel + todo app in a centered, in-flow column */
+.todo-workspace {
+  max-width: 720px;
+  margin: 24px auto 48px;
+  padding: 0 16px;
+}
+
+/* Panel: in normal flow above the todo. Hidden until opened. */
+.todo-info {
+  background: #FFFFFF;
+  border: 3px solid #111;
+  border-radius: 8px;
+  box-shadow: 6px 6px 0 #111;
+  padding: 22px;
+  display: none;
+}
+
+/* Open: reveal in-flow, pushing the todo list below */
+.todo-info.is-open {
+  display: block;
+}
+
+/* Spacing between the info panel (above) and the todo app (below) */
+.todo-info.is-open + #todo-app {
+  margin-top: 28px;
+}
+
+.todo-info__head {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.todo-info__badge {
+  align-self: flex-start;
+  padding: 3px 10px;
+  background: #FFDE00;
+  border: 2px solid #111;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.todo-info__title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+.todo-info__lead {
+  margin: 0 0 16px;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+.todo-info__graph {
+  margin: 0 0 16px;
+  padding: 14px;
+  background: #111;
+  color: #FFDE00;
+  border-radius: 6px;
+  border: 2px solid #111;
+  overflow-x: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.todo-info__agents {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.todo-info__agents li {
+  padding: 8px 12px;
+  background: #FFF7E0;
+  border: 2px solid #111;
+  border-radius: 6px;
+  box-shadow: 3px 3px 0 #111;
+  font-size: 0.88rem;
+  font-weight: 600;
+  word-break: break-word;
+}
+
+.todo-info__agents code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.82rem;
+  background: #fff;
+  padding: 1px 5px;
+  border: 1px solid #111;
+  border-radius: 4px;
+}

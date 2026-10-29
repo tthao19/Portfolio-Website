@@ -16,27 +16,28 @@ This project is a personal developer hub and a demonstration of a standalone Tod
   - Fixed ES module scoping issues in `todo.astro` by ensuring `import { initTodoApp }` was inside the `<script>` block.
   - Verified E2E via Playwright (adding tasks and confirming `localStorage` updates).
 - **UI**: Added a top navigation bar (HOME / INFO) with a bold, high-contrast style.
+- **Info Panel**: Added a collapsible "HOW IT'S BUILT" panel showing the multi-agent git worktree story with commit graph and agent lanes.
 
 ### B. Portfolio Index (`index.astro`)
 - **Status**: 🔄 In Progress
 - **Features**:
   - **Hero Section**: "Systems Builder" branding.
   - **Skills Showcase**:
-    - **Local AI Inference**: Hybrid approach (Local edge execution + Gemini for assisted wiring).
-    - **System Architecture**: Workflow design and mapping.
+    - **Hybrid AI Projects**: Hybrid approach (Local edge execution + Gemini for assisted wiring). Updated description text.
+    - **System Architecture**: Workflow design and mapping. Added "Explore Pipeline" button (clickable, no action yet).
   - **Design System**: Neo-brutalism with a focus on high-contrast borders (3px solid) and "pop" colors (Red, Yellow, Cyan, Purple).
+  - **Theme Toggle**: Fixed icon overlap bug using CSS `:has()` selector + `window.load` event listener for Lucide CDN re-render.
 
 ## 3. Action Items & Roadmap
 
 ### High Priority (Current Focus)
-1. **Fix Contrast Issue**: "System Architecture & Workflow Design" heading uses yellow text on a white background. 
-   - **Task**: Change background to dark, or yellow text to black with a shadow, or use blue text for better readability.
-2. **Rewrite "Local AI" Description**: 
-   - **Current**: "Running lightweight local models directly on edge environments..."
-   - **New Focus**: Clarify the **Hybrid** nature. Local execution is the core, but Gemini was used to assist with the "wiring" and integration of the Todo app logic.
-3. **E2E Button Audit**:
-   - **Task**: Perform a full End-to-End check of all buttons.
-   - **Targets**: "Launch App", "Explore Environment", and navigation links.
+1. ~~**Fix Contrast Issue**~~ ✅ RESOLVED: "System Architecture" heading uses pop-red accent color.
+2. ~~**Rewrite "Local AI" Description**~~ ✅ RESOLVED: Now "HYBRID AI PROJECTS" with clear hybrid approach text.
+3. **E2E Button Audit** (in progress):
+   - [x] "Explore Environment" — styled, clickable (no action yet)
+   - [x] "Explore Pipeline" — styled, clickable (no action yet)
+   - [ ] "Launch App ↗" — **DEAD BUTTON** (no href, no onclick)
+   - [ ] Navigation links — HOME / INFO verified on /todo
    - **Goal**: Ensure no "dead" buttons remain.
 
 ### Medium Priority
@@ -46,18 +47,19 @@ This project is a personal developer hub and a demonstration of a standalone Tod
 5. **GitHub Integration**:
    - Create a new GitHub account with the project's dedicated email.
    - Initialize a Git repo and push the project.
+   - **NOTE**: Local repo exists on `master` branch but NO REMOTE configured.
 
 ### Low Priority (Finalization)
 6. **Final Pre-Push Checklist & Commit**:
-   - **Check Modified Files**: Run `git status` to verify only expected files were changed.
-   - **Verify `.gitignore`**: Ensure `node_modules/` and `.astro/` are ignored.
-   - **Double-Check `LocalStorage`**: Confirm tasks persist after refresh on `/todo`.
-   - **Clean Build**: Stop the local dev server (`Ctrl + C`) to release file locks.
-   - **Execute Push**:
+   - [x] **Check Modified Files**: `git status` shows 4 modified files (.gitignore, index.astro, todo.astro, todo.css)
+   - [ ] **Verify `.gitignore`**: Ensure `node_modules/` and `.astro/` are ignored.
+   - [ ] **Double-Check `LocalStorage`**: Confirm tasks persist after refresh on `/todo`.
+   - [ ] **Clean Build**: ✅ `astro build` passes (2 pages, 0 errors)
+   - [ ] **Execute Push**: BLOCKED — no remote configured
      ```bash
      git add .
-     git commit -m "feat: complete todo app route integration with localstorage state and portfolio navigation"
-     git push origin main
+     git commit -m "feat: update portfolio content, fix theme toggle, add info panel and buttons"
+     git push origin master
      ```
 
 ## 4. Technical Notes
@@ -65,6 +67,7 @@ This project is a personal developer hub and a demonstration of a standalone Tod
 - **Dev Server**: `astro dev --host 127.0.0.1 --port 4322`
 - **CSS**: `todo.css` uses a strict Neo-brutalist palette. `index.astro` uses CSS variables for a flexible light/dark theme.
 - **Local Storage Keys**: `todo.tasks` (for Todo app), `theme` (for index page dark mode).
+- **Git**: Local repo on `master` branch. No remote configured. 3 commits so far.
 
 ## 5. File Structure
 ```
@@ -72,10 +75,10 @@ astro_test/
 ├── src/
 │   ├── pages/
 │   │   ├── index.astro      # Portfolio Hub (Astro)
-│   │   ├── todo.astro       # Todo App (Astro)
-│   │   └── info.astro       # (Pending) Summary page
+│   │   └── todo.astro       # Todo App (Astro)
 │   ├── lib/
-│   │   └── todo-client.js   # Core logic for the Todo app
+│   │   ├── todo.js          # Core Todo logic (pure JS)
+│   │   └── todo-client.js   # Client-side Todo wiring
 │   └── styles/
 │       └── todo.css         # Neo-brutalist styles for Todo
 ├── dist/                    # Build output
