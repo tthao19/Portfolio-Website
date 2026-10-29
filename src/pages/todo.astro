@@ -1,6 +1,5 @@
 ---
 import '../styles/todo.css';
-import { initTodoApp } from '../lib/todo-client.js';
 ---
 
 <!DOCTYPE html>
@@ -16,6 +15,10 @@ import { initTodoApp } from '../lib/todo-client.js';
   </head>
   <body>
     <!-- Markup lane fragment: standalone HTML5 fragment, inlined into an Astro page at build time. -->
+      <nav class="todo-nav">
+        <a href="/" class="todo-nav__link todo-nav__link--active">HOME</a>
+        <a href="/info" class="todo-nav__link">INFO</a>
+      </nav>
     <section id="todo-app" aria-label="Todo application">
       <header class="todo-header">
         <h1 class="todo-title">Todo.</h1>
@@ -42,6 +45,7 @@ import { initTodoApp } from '../lib/todo-client.js';
     </section>
 
     <script>
+      import { initTodoApp } from '../lib/todo-client.js';
       initTodoApp();
     </script>
   </body>
