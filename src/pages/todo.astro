@@ -1,0 +1,48 @@
+---
+import '../styles/todo.css';
+import { initTodoApp } from '../lib/todo-client.js';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A standalone neo-brutalist Todo app. Pure vanilla JS, zero runtime dependencies, persisted to LocalStorage."
+    />
+    <title>Todo — Standalone Astro + Vanilla JS + LocalStorage</title>
+  </head>
+  <body>
+    <!-- Markup lane fragment: standalone HTML5 fragment, inlined into an Astro page at build time. -->
+    <section id="todo-app" aria-label="Todo application">
+      <header class="todo-header">
+        <h1 class="todo-title">Todo.</h1>
+      </header>
+
+      <form id="task-form" class="task-form" autocomplete="off" aria-label="Add a task">
+        <input
+          type="text"
+          id="task-input"
+          name="task"
+          class="task-input"
+          placeholder="What needs to get done?"
+          maxlength="200"
+          required
+          aria-label="New task description"
+        />
+        <button type="submit" class="task-add">Add task</button>
+      </form>
+
+      <!-- Task items are rendered here by the client script. -->
+      <ul id="task-list" class="task-list"></ul>
+
+      <p id="task-counter" class="task-counter">0 tasks remaining</p>
+    </section>
+
+    <script>
+      initTodoApp();
+    </script>
+  </body>
+</html>
