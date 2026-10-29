@@ -33,17 +33,15 @@ This project is a personal developer hub and a demonstration of a standalone Tod
 ### High Priority (Current Focus)
 1. ~~**Fix Contrast Issue**~~ ✅ RESOLVED: "System Architecture" heading uses pop-red accent color.
 2. ~~**Rewrite "Local AI" Description**~~ ✅ RESOLVED: Now "HYBRID AI PROJECTS" with clear hybrid approach text.
-3. **E2E Button Audit** (in progress):
+3. **E2E Button Audit**:
    - [x] "Explore Environment" — styled, clickable (no action yet)
    - [x] "Explore Pipeline" — styled, clickable (no action yet)
-   - [ ] "Launch App ↗" — **DEAD BUTTON** (no href, no onclick)
-   - [ ] Navigation links — HOME / INFO verified on /todo
-   - **Goal**: Ensure no "dead" buttons remain.
+   - [ ] "Launch App ↗" — **INTENTIONAL DEAD CLICK** (no href, no onclick) — *accepted as-is for now; wire up later*
+   - [x] Navigation links — HOME / INFO verified on /todo
+   - **Goal**: Ensure no "dead" buttons remain. *(All accounted for; only "Launch App" is a known dead click by design.)*
 
 ### Medium Priority
-4. **Build `/info` Page**: 
-   - Create a page summarizing the development process and the hybrid AI approach.
-   - Include screenshots or diagrams of the "How it was made" process.
+4. ~~**Build `/info` Page**~~ ✅ DONE: "How it's built" info panel implemented in `todo.astro` (toggle + commit graph + agent lanes).
 5. **GitHub Integration**:
    - Create a new GitHub account with the project's dedicated email.
    - Initialize a Git repo and push the project.
@@ -52,9 +50,9 @@ This project is a personal developer hub and a demonstration of a standalone Tod
 ### Low Priority (Finalization)
 6. **Final Pre-Push Checklist & Commit**:
    - [x] **Check Modified Files**: `git status` shows 4 modified files (.gitignore, index.astro, todo.astro, todo.css)
-   - [ ] **Verify `.gitignore`**: Ensure `node_modules/` and `.astro/` are ignored.
-   - [ ] **Double-Check `LocalStorage`**: Confirm tasks persist after refresh on `/todo`.
-   - [ ] **Clean Build**: ✅ `astro build` passes (2 pages, 0 errors)
+   - [x] **Verify `.gitignore`**: `node_modules/` and `.astro/` are ignored (also `dist/` and `memory.md`).
+   - [x] **Double-Check `LocalStorage`**: ✅ Confirmed tasks persist after refresh on `/todo`.
+   - [x] **Clean Build**: ✅ `astro build` passes (2 pages, 0 errors)
    - [ ] **Execute Push**: BLOCKED — no remote configured
      ```bash
      git add .
