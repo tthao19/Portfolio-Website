@@ -1,6 +1,6 @@
 # TTHAO — Developer Hub & Portfolio
 
-> A personal developer portfolio and project hub, built with [Astro](https://astro.build).
+> A personal developer portfolio and project hub — self-contained static HTML, ready to deploy.
 
 ## 🧭 What's inside
 
