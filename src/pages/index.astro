@@ -1,5 +1,6 @@
 ---
 // Clean Astro Frontmatter Block
+import { projects } from '../lib/projects.js';
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -514,91 +515,46 @@
     <div class="carousel-track-container" id="carouselContainer">
       <div class="carousel-track" id="carouselTrack">
         
-        <!-- Project 1: To Do List -->
-        <a href="/todo" class="showcase-card">
-          <div class="card-img-wrap">
-            <span class="card-tag">RUNNING LIVE</span>
-            <img src="https://images.unsplash.com/photo-1540350394557-8d14678e7f91?auto=format&fit=crop&w=800&q=80" alt="To Do List Checkmark">
-          </div>
-          <div class="card-body">
-            <div>
-              <span style="font-size: 0.75rem; font-family: var(--font-body); font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Project 1</span>
-              <h3 class="card-title">To Do List</h3>
-            </div>
-            <div class="card-meta">
-              <span>Orchestration + Multi-Agents</span>
-              <span style="color: var(--pop-red);">Launch &nearr;</span>
-            </div>
-          </div>
-        </a>
+        <!-- Projects are rendered from src/lib/projects.js — add a project there. -->
+        {projects.map((project, i) => {
+          const label = `Project ${i + 1}`;
+          const isLive = Boolean(project.href);
+          const cardClass = isLive ? 'showcase-card is-live' : 'showcase-card';
+          const body = (
+            <>
+              <div class="card-img-wrap">
+                <span class="card-tag">{project.tag}</span>
+                <img src={project.image} alt={project.title} />
+              </div>
+              <div class="card-body">
+                <div>
+                  <span style="font-size: 0.75rem; font-family: var(--font-body); font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">{label}</span>
+                  <h3 class="card-title">{project.title}</h3>
+                </div>
+                <div class="card-meta">
+                  {isLive ? (
+                    <>
+                      <span>{project.meta}</span>
+                      <span style="color: var(--pop-red);">Launch &nearr;</span>
+                    </>
+                  ) : (
+                    <span style="color: var(--text-muted); font-style: italic;">{project.meta || 'Coming soon'}</span>
+                  )}
+                </div>
+              </div>
+            </>
+          );
 
-        <!-- Project 2: TBD -->
-        <div class="showcase-card">
-          <div class="card-img-wrap">
-            <span class="card-tag">TBD</span>
-            <img src="https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&w=800&q=80" alt="Placeholder Mountain">
-          </div>
-          <div class="card-body">
-            <div>
-              <span style="font-size: 0.75rem; font-family: var(--font-body); font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Project 2</span>
-              <h3 class="card-title">TBD</h3>
+          return isLive ? (
+            <a href={project.href} class={cardClass}>
+              {body}
+            </a>
+          ) : (
+            <div class={cardClass}>
+              {body}
             </div>
-            <div class="card-meta">
-              <span style="color: var(--text-muted); font-style: italic;">Coming soon</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project 3: TBD -->
-        <div class="showcase-card">
-          <div class="card-img-wrap">
-            <span class="card-tag">TBD</span>
-            <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80" alt="Placeholder Nature">
-          </div>
-          <div class="card-body">
-            <div>
-              <span style="font-size: 0.75rem; font-family: var(--font-body); font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Project 3</span>
-              <h3 class="card-title">TBD</h3>
-            </div>
-            <div class="card-meta">
-              <span style="color: var(--text-muted); font-style: italic;">Coming soon</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project 4: TBD -->
-        <div class="showcase-card">
-          <div class="card-img-wrap">
-            <span class="card-tag">TBD</span>
-            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80" alt="Placeholder Scenery">
-          </div>
-          <div class="card-body">
-            <div>
-              <span style="font-size: 0.75rem; font-family: var(--font-body); font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Project 4</span>
-              <h3 class="card-title">TBD</h3>
-            </div>
-            <div class="card-meta">
-              <span style="color: var(--text-muted); font-style: italic;">Coming soon</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project 5: TBD -->
-        <div class="showcase-card">
-          <div class="card-img-wrap">
-            <span class="card-tag">TBD</span>
-            <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=80" alt="Placeholder Night Sky">
-          </div>
-          <div class="card-body">
-            <div>
-              <span style="font-size: 0.75rem; font-family: var(--font-body); font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Project 5</span>
-              <h3 class="card-title">TBD</h3>
-            </div>
-            <div class="card-meta">
-              <span style="color: var(--text-muted); font-style: italic;">Coming soon</span>
-            </div>
-          </div>
-        </div>
+          );
+        })}
 
       </div>
     </div>
